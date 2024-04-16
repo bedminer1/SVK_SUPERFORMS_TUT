@@ -2,37 +2,37 @@
 	import { superForm } from "sveltekit-superforms";
 	import { ProgressRadial } from '@skeletonlabs/skeleton'
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings, ModalComponent, ModalStore } from '@skeletonlabs/skeleton';
+	import type { ModalSettings } from '@skeletonlabs/skeleton';
 
 	export let data
 
-// COMMENTED OUT TAINT IMPLEMENTATION TO LEARN SNAPSHOTS
-	// const modalStore = getModalStore()
+// CHOOSE TAINT OR SNAPSHOT
+	const modalStore = getModalStore()
+	const modal: ModalSettings = {
+		type: 'confirm',
+		title: 'Do you want to leave?',
+		body: 'Changes you made may not be saved.',
+	}
 
 	// superForm api makes data.form into an object with more useful properties
-	const { form, 
-		errors,
-		constraints, 
-		message, 
-		enhance, 
-		delayed, 
-		capture, 
-		restore 
-	} = superForm(data.form
-	// ,{
-	// 	taintedMessage: () => {
-	// 		return new Promise((resolve) => {
-	// 			modalStore.trigger({
-	// 				type: 'confirm',
-	// 				title: 'Do you want to leave?',
-	// 				body: 'Changes you made may not be saved.',
-	// 				response: resolve
-	// 			});
-	// 		});
-  	// 	}
-	// }
+	const { 
+		form, // bindings
+		errors, constraints, message, delayed, // feedback
+		capture, restore, // snapshots
+		enhance, // similar to svk native enhance
+	} = superForm(data.form, { taintedMessage: () => {
+	// TAINTED 
+			return new Promise((resolve) => {
+				modalStore.trigger({
+					...modal,
+					response: resolve
+				});
+			});
+  		}
+	}
 	)
 
+	// SNAPSHOT
 	export const snapshot = { capture, restore }
 </script>
 

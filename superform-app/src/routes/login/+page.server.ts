@@ -6,7 +6,7 @@ import { superValidate, message } from "sveltekit-superforms";
 // The schema should be defined outside the load function
 // for caching
 const schema = z.object({
-  name: z.string(),
+  name: z.string().min(2).max(20),
   email: z.string().email(),
 });
 
