@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { superForm } from "sveltekit-superforms";
+	import { ProgressRadial } from '@skeletonlabs/skeleton'
 
 	export let data
 
 	// superForm api makes data.form into an object with more useful properties
-	const { form, errors, constraints, message, enhance } = superForm(data.form)
+	const { form, errors, constraints, message, enhance, delayed } = superForm(data.form)
 </script>
 <div class="flex flex-col gap-2 justify-center h-screen items-center">
 	<form method="POST" use:enhance class="rounded-lg flex flex-col gap-1 w-1/2 p-3 px-5 border-dashed border-2">
@@ -24,7 +25,12 @@
 		<input type="email" name="email" aria-invalid={$errors.email ? 'true' : undefined} {...$constraints.email}  class="input" bind:value={$form.email} />
 		{#if $errors.email}<span class="text-red-300">{$errors.email}</span>{/if}
 
-		<div><button>Submit</button></div>
+		<div>
+			<button>Submit</button>
+			{#if $delayed} 
+				<ProgressRadial value={undefined} width={"w-10"}/>
+			{/if}
+		</div>
 	</form>
 
 <!-- SUCCESS MESSAGE -->

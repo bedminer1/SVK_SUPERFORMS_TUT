@@ -24,16 +24,15 @@ export const actions = {
   default: async ({ request }) => {
     const form = await superValidate(request, zod(schema));
     console.log(form);
-/*
-Example form:
-{
-  id: '1mnxh8i',
-  valid: true,
-  posted: true,
-  errors: {},
-  data: { name: 'Michael Smith', email: 'ok@gmail.com' }
-}
-*/
+    /*
+    Example form: {
+    id: '1mnxh8i',
+    valid: true,
+    posted: true,
+    errors: {},
+    data: { name: 'Michael Smith', email: 'ok@gmail.com' }
+    }
+    */
 
     if (!form.valid) {
       return fail(400, { form });
