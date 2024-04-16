@@ -4,10 +4,10 @@
 	export let data
 
 	// superForm api makes data.form into an object with more useful properties
-	const { form, errors, constraints, message } = superForm(data.form)
+	const { form, errors, constraints, message, enhance } = superForm(data.form)
 </script>
 <div class="flex flex-col gap-2 justify-center h-screen items-center">
-	<form method="POST" class="rounded-lg flex flex-col gap-1 w-1/2 p-3 px-5 border-dashed border-2">
+	<form method="POST" use:enhance class="rounded-lg flex flex-col gap-1 w-1/2 p-3 px-5 border-dashed border-2">
 		<label for="name" class="label">Name</label>
 		<input
 			type="text"
